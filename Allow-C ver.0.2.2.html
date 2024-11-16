@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Allow</title>
+    <meta charset="utf-8" />
+    <style>
+    * {
+        background-color:gray;
+    }
+    </style>
+    <script type="text/javascript">
+    "use strict";
+    var ctx, me, wasd, allow = [], max = [0],  key = 1, key2 = 1, point = 0, life = 3, rise = false, speed = 0, mode = 0, number = 5, combo = 0, timer = NaN;
+    function Me() {
+        this.x = 670;
+        this.y = 380;
+
+        this.draw = function (ctx) {
+            var canvas = document.getElementById("canvas");
+            ctx = canvas.getContext("2d");
+            ctx.strokeStyle = "white";
+            ctx.lineWidth = 5;
+            if(key == 0){//左向き
+                ctx.beginPath();
+                ctx.moveTo(670,380);//中心
+                ctx.lineTo(670,405);//左
+                ctx.lineTo(640,380);//頂点
+                ctx.lineTo(670,355);//右
+                ctx.lineTo(670,370);//右中
+                ctx.lineTo(710,370);//右下
+                ctx.lineTo(710,390);//左下
+                ctx.lineTo(670,390);//左中
+                ctx.stroke();
+                ctx.fill();
+            } else if(key == 1){//上向き
+                ctx.beginPath();
+                ctx.moveTo(675,375);//中心
+                ctx.lineTo(650,375);//左
+                ctx.lineTo(675,345);//頂点
+                ctx.lineTo(700,375);//右
+                ctx.lineTo(685,375);//右中
+                ctx.lineTo(685,415);//右下
+                ctx.lineTo(665,415);//左下
+                ctx.lineTo(665,375);//左中
+                ctx.stroke();
+                ctx.fill();
+            } else if(key == 2){//右向き
+                ctx.beginPath();
+                ctx.moveTo(675,375);//中心
+                ctx.lineTo(675,355);//左
+                ctx.lineTo(710,380);//頂点
+                ctx.lineTo(675,405);//右
+                ctx.lineTo(675,390);//右中
+                ctx.lineTo(640,390);//右下
+                ctx.lineTo(640,370);//左下
+                ctx.lineTo(675,370);//左中
+                ctx.stroke();
+                ctx.fill();
+            } else if(key == 3){//下向き
+                ctx.beginPath();
+                ctx.moveTo(675,380);//中心
+                ctx.lineTo(650,380);//左
+                ctx.lineTo(675,415);//頂点
+                ctx.lineTo(700,380);//右
+                ctx.lineTo(685,380);//右中
+                ctx.lineTo(685,345);//右下
+                ctx.lineTo(665,345);//左下
+                ctx.lineTo(665,380);//左中
+                ctx.stroke();
+                ctx.fill();
+            }
+        }
+    }
+
+    function Wasd() {
+        this.x = 670;
+        this.y = 380;
+
+        this.draw = function (ctx) {
+            var canvas = document.getElementById("canvas");
+            ctx = canvas.getContext("2d");
+            ctx.strokeStyle = "lime";
+            ctx.lineWidth = 5;
+            if(key2 == 0){//左向き
+                ctx.beginPath();
+                ctx.moveTo(700,380);//下
+                ctx.lineTo(655,380);//頂点
+                ctx.stroke();
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.moveTo(665,370);//右
+                ctx.lineTo(655,380);//頂点
+                ctx.lineTo(665,390);//左
+                ctx.lineTo(655,380);//頂点
+                ctx.stroke();
+                ctx.fill();
+            } else if(key2 == 1){//上向き
+                ctx.beginPath();
+                ctx.moveTo(675,405);//下
+                ctx.lineTo(675,360);//頂点
+                ctx.stroke();
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.moveTo(685,370);//右
+                ctx.lineTo(675,360);//頂点
+                ctx.lineTo(665,370);//左
+                ctx.lineTo(675,360);//頂点
+                ctx.stroke();
+                ctx.fill();
+            } else if(key2 == 2){//右向き
+                ctx.beginPath();
+                ctx.moveTo(650,380);//下
+                ctx.lineTo(695,380);//頂点
+                ctx.stroke();
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.moveTo(685,390);//右
+                ctx.lineTo(695,380);//頂点
+                ctx.lineTo(685,370);//左
+                ctx.lineTo(695,380);//頂点
+                ctx.stroke();
+                ctx.fill();
+            } else if(key2 == 3){//下向き
+                ctx.beginPath();
+                ctx.moveTo(675,355);//下
+                ctx.lineTo(675,400);//頂点
+                ctx.stroke();
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.moveTo(665,390);//右
+                ctx.lineTo(675,400);//頂点
+                ctx.lineTo(685,390);//左
+                ctx.lineTo(675,400);//頂点
+                ctx.stroke();
+                ctx.fill();
+            }
+        }
+    }
+
+    function Allow() {
+        this.cyan = false;
+        this.color = rand(6);//矢印の色
+        this.turn =rand(4);//向き
+
+        if (this.turn == 0) {//下向き
+            this.x = 670;
+            this.y = 0;
+        } else if (this.turn == 1) {//左向き
+            this.x = 1045;
+            this.y = 380;
+        } else if (this.turn == 2) {//上向き
+            this.x = 670;
+            this.y = 745;
+        } else if (this.turn == 3) {//右向き
+            this.x = 300;
+            this.y = 380;
+        }
+
+        this.draw = function(ctx) {
+            var canvas = document.getElementById("canvas");
+            ctx = canvas.getContext("2d");
+            if (this.turn == 0) {//下向き
+                if(this.color < 3) {
+                    ctx.fillStyle = 'red';
+                } else if (this.color == 3) {
+                    ctx.fillStyle = 'cyan';                
+                } else if (this.color == 4) {
+                    ctx.fillStyle = 'lime';
+                } else if (this.color == 5) {
+                    ctx.fillStyle = 'yellow';                
+                }
+                ctx.beginPath();
+                ctx.moveTo(675,(this.y - 35));//中心
+                ctx.lineTo(650,(this.y - 35));//左
+                ctx.lineTo(675,this.y);//頂点
+                ctx.lineTo(700,(this.y - 35));//右
+                ctx.lineTo(685,(this.y - 35));//右中
+                ctx.lineTo(685,(this.y - 70));//右下
+                ctx.lineTo(665,(this.y - 70));//左下
+                ctx.lineTo(665,(this.y - 35));//左中
+                ctx.fill();
+            
+            } else if (this.turn == 1) {//左向き
+                if(this.color < 3) {
+                    ctx.fillStyle = 'red';
+                } else if (this.color == 3) {
+                    ctx.fillStyle = 'cyan';                
+                } else if (this.color == 4) {
+                    ctx.fillStyle = 'lime';
+                } else if (this.color == 5) {
+                    ctx.fillStyle = 'yellow';                
+                }
+                ctx.beginPath();
+                ctx.moveTo((this.x + 30),380);//中心
+                ctx.lineTo((this.x + 30),405);//左
+                ctx.lineTo(this.x,380);//頂点
+                ctx.lineTo((this.x + 30),355);//右
+                ctx.lineTo((this.x + 30),370);//右中
+                ctx.lineTo((this.x + 70),370);//右下
+                ctx.lineTo((this.x + 70),390);//左下
+                ctx.lineTo((this.x + 30),390);//左中
+                ctx.fill();
+
+            } else if (this.turn == 2) {//上向き
+                if(this.color < 3) {
+                    ctx.fillStyle = 'red';
+                } else if (this.color == 3) {
+                    ctx.fillStyle = 'cyan';                
+                } else if (this.color == 4) {
+                    ctx.fillStyle = 'lime';
+                } else if (this.color == 5) {
+                    ctx.fillStyle = 'yellow';                
+                }
+                ctx.beginPath();
+                ctx.moveTo(675,(this.y + 30));//中心
+                ctx.lineTo(650,(this.y + 30));//左
+                ctx.lineTo(675,this.y);//頂点
+                ctx.lineTo(700,(this.y + 30));//右
+                ctx.lineTo(685,(this.y + 30));//右中
+                ctx.lineTo(685,(this.y + 70));//右下
+                ctx.lineTo(665,(this.y + 70));//左下
+                ctx.lineTo(665,(this.y + 30));//左中
+                ctx.fill();
+            } else if (this.turn == 3) {//右向き
+                if(this.color < 3) {
+                    ctx.fillStyle = 'red';
+                } else if (this.color == 3) {
+                    ctx.fillStyle = 'cyan';                
+                } else if (this.color == 4) {
+                    ctx.fillStyle = 'lime';
+                } else if (this.color == 5) {
+                    ctx.fillStyle = 'yellow';                
+                }
+                ctx.beginPath();
+                ctx.moveTo((this.x - 30),375);//中心
+                ctx.lineTo((this.x - 30),355);//左
+                ctx.lineTo(this.x,380);//頂点
+                ctx.lineTo((this.x - 30),405);//右
+                ctx.lineTo((this.x - 30),390);//右中
+                ctx.lineTo((this.x - 70),390);//右下
+                ctx.lineTo((this.x - 70),370);//左下
+                ctx.lineTo((this.x - 30),370);//左中
+                ctx.fill();
+            }
+        }
+    }
+    function init() {
+        me = new Me();
+        wasd = new Wasd();
+        allow = new Allow();
+        var canvas = document.getElementById('canvas');
+            ctx = canvas.getContext('2d');
+            ctx.font = "20pt Sans-serif";
+            addEventListener('keydown', function (e) { toggleKey(e.keyCode,true) });
+            addEventListener('keyup', function (e) { toggleKey(e.keyCode,false) });
+            addEventListener('keydown', function (c) { toggleKeys(c.keyCode,true) });
+            addEventListener('keyup', function (c) { toggleKeys(c.keyCode,false) });
+            addEventListener('keydown', keyDown, true );
+            addEventListener('keyup', keyUp, false);
+
+            draw();
+
+            // //メインループの開始
+            function waitOneSecond() {
+                setTimeout(function() {
+                    // ここに1秒後に実行したい処理を記述
+                    if(isNaN(timer)){
+                        this.count ++;
+                        timer = setInterval(mainLoop, 11);
+                    }
+                }, 1000); // 1000ミリ秒 = 1秒
+            }
+            waitOneSecond();     
+
+        }
+    function mainLoop() {
+        if(allow.turn == 0) {//下向き
+            allow.y += 5;
+            if(allow.y == (me.y + 40)) {
+                if(allow.color < 3){
+                    if(key == 3 && allow.cyan == false){
+                        point += 100;
+                        combo ++;
+                    } else {
+                        life--;
+                        if(combo > max){
+                            max = combo;
+                        }
+                        combo = 0;
+                    }
+                } else if(allow.color == 3){
+                    if(key == 3 && allow.cyan == true){
+                        point += 100;
+                        combo ++;
+                    } else {
+                        life--;
+                        if(combo > max){
+                            max = combo;
+                        }
+                        combo = 0;
+                    }                    
+                } else if(allow.color == 4){
+                    if(key2 == 3 && allow.cyan == false){
+                        point += 100;
+                        combo ++;
+                    } else {
+                        life--;
+                        if(combo > max){
+                            max = combo;
+                        }
+                        combo = 0;
+                    }
+                } else if(allow.color == 5){
+                    if(key == 1 && allow.cyan == false){
+                        point += 100;
+                        combo ++;
+                    } else {
+                        life--;
+                        if(combo > max){
+                            max = combo;
+                        }
+                        combo = 0;
+                    }
+                }
+
+                allow = new Allow();  
+            }
+        } else if(allow.turn == 1) {//左向き
+            allow.x -= 5;
+            if(allow.x == (me.x - 40)) {
+                if(allow.color < 3){
+                    if(key == 0 && allow.cyan == false){
+                        point += 100;
+                        combo ++;
+                    } else {
+                        life--;
+                        if(combo > max){
+                            max = combo;
+                        }
+                        combo = 0;
+                    }
+                } else if(allow.color == 3){
+                    if(key == 0 && allow.cyan == true){
+                        point += 100;
+                        combo ++;
+                    } else {
+                        life--;
+                        if(combo > max){
+                            max = combo;
+                        }
+                        combo = 0;
+                    }                
+                } else if(allow.color == 4){
+                    if(key2 == 0 && allow.cyan == false){
+                        point += 100;
+                        combo ++;
+                    } else {
+                        life--;
+                        if(combo > max){
+                            max = combo;
+                        }
+                        combo = 0;
+                    }
+                } else if(allow.color == 5){
+                    if(key == 2 && allow.cyan == false){
+                        point += 100;
+                        combo ++;
+                    } else {
+                        life--;
+                        if(combo > max){
+                            max = combo;
+                        }
+                        combo = 0;
+                    }
+                }
+
+                allow = new Allow();
+            }
+        } else if(allow.turn == 2) {//上向き
+            allow.y -= 5;
+            if(allow.y == (me.y - 40)) {
+                if(allow.color < 3){
+                    if(key == 1 && allow.cyan == false){
+                        point += 100;
+                        combo ++;
+                    } else {
+                        life--;
+                        if(combo > max){
+                            max = combo;
+                        }
+                        combo = 0;
+                    }
+                } else if(allow.color == 3){
+                    if(key == 1 && allow.cyan == true) {
+                        point += 100;
+                        combo ++;
+                    } else {
+                        life--;
+                        if(combo > max){
+                            max = combo;
+                        }
+                        combo = 0;
+                    }
+                } else if(allow.color == 4){
+                    if(key2 == 1 && allow.cyan == false){
+                        point += 100;
+                        combo ++;
+                    } else {
+                        life--;
+                        if(combo > max){
+                            max = combo;
+                        }
+                        combo = 0;
+                    }
+                } else if(allow.color == 5){
+                    if(key == 3 && allow.cyan == false){
+                        point += 100;
+                        combo ++;
+                    } else {
+                        life --;
+                        if(combo > max){
+                            max = combo;
+                        }
+                        combo = 0;
+                    }
+                }
+
+                allow = new Allow();
+            }
+        } else if(allow.turn == 3) {//右向き
+            allow.x += 5;
+            if(allow.x == (me.x + 40)) {
+                if(allow.color < 3){
+                    if(key == 2 && allow.cyan == false){
+                        point += 100;
+                        combo ++;
+                    } else {
+                        life--;
+                        if(combo > max){
+                            max = combo;
+                        }
+                        combo = 0;
+                    }
+                } else if(allow.color == 3){
+                    if(key == 2 && allow.cyan == true){
+                        point += 100;
+                        combo ++;
+                    } else {
+                        life--;
+                        if(combo > max){
+                            max = combo;
+                        }
+                        combo = 0;
+                    }
+                } else if(allow.color == 4){
+                    if(key2 == 2 && allow.cyan == false){
+                        point += 100;
+                        combo ++;
+                    } else {
+                        life--;
+                        if(combo > max){
+                            max = combo;
+                        }
+                        combo = 0;
+                    }
+                } else if(allow.color == 5){
+                    if(key == 0 && allow.cyan == false){
+                        point += 100;
+                        combo ++;
+                    } else {
+                        life--;
+                        if(combo > max){
+                            max = combo;
+                        }
+                        combo = 0;
+                    }
+                }
+                allow = new Allow();
+        }
+    }
+    if(life < 1) {
+        gameOver();
+    } else if(point == 5000){
+        gameClear();
+    }
+        draw();
+    }
+    function toggleKey(code,flag) {
+        switch(code) {
+            case 37: key = 0; break;//左_key
+            case 38: key = 1; break;//上_key
+            case 39: key = 2; break;//右_key
+            case 40: key = 3; break;//下_key
+        }
+    }
+
+    function toggleKeys(code,flag) {
+        switch(code) {
+            case 65: key2 = 0; break;//A_key
+            case 87: key2 = 1; break;//W_key
+            case 68: key2 = 2; break;//D_key
+            case 83: key2 = 3; break;//S_key
+        }
+    }
+
+    function keyDown(evt) {
+        if(evt.keyCode == 32) allow.cyan = true;//Space_key
+    }
+
+    function keyUp(evt) {
+        if(evt.keyCode == 32) allow.cyan = false;//Space_key
+    }
+
+    function rand(r) {
+                return Math.floor(Math.random() * r);
+            }
+
+    function gameOver() {
+        clearInterval(timer);timer = NaN;
+        draw();
+    }
+
+    function gameClear() {
+        clearInterval(timer);timer = NaN;
+        draw();
+    }
+
+    function draw() {
+        
+
+
+        //黒背景
+        ctx.fillStyle = 'black';
+        ctx.fillRect(300, 0, 740, 745);
+
+        //矢印（空白）
+        me.draw(ctx);
+
+        //矢印（小）
+        wasd.draw(ctx);
+
+        // 枠
+        ctx.lineWidth = 3;
+        if(allow.cyan == true){
+            ctx.strokeStyle = 'cyan';
+        } else {
+            ctx.strokeStyle = 'white';
+        }
+        ctx.strokeRect(625, 325, 100, 100);
+        //矢印（塗りつぶし）
+        allow.draw(ctx);
+        
+         // 背景塗り潰し
+        ctx.fillStyle = 'gray' ;
+        ctx.fillRect(0, 0, 300, 745);
+        ctx.fillRect(1040, 0, 310, 745);
+
+        //各文字
+        ctx.font="50pt Sans-serif"
+        ctx.fillStyle = 'white';
+        ctx.fillText('Point:' + point, 300, 70);
+        ctx.fillText('Life:', 825, 75);
+        ctx.fillText('Level:' + (speed + 1), 300, 720);
+        ctx.fillText('Combo:' + combo, 300, 175);
+        
+        if(life == 3){
+            ctx.fillStyle = 'yellow';
+        } else if(life == 2){
+            ctx.fillStyle = 'orange';
+        } else if(life == 1){
+            ctx.fillStyle = 'red';
+        } else if(life == 4){
+            ctx.fillStyle = 'lime';
+        } else if(life == 5){
+            ctx.fillStyle = 'cyan';
+        } else if(life == 6){
+            ctx.fillStyle = 'pink';
+        } else {
+            ctx.fillStyle = 'magenta';
+        }
+        ctx.fillText(life, 955, 75);
+        if(point % 1000 == 0 || point % 2500 == 0){
+            if (!point == 0 && rise == true){
+                if(point % 2500 == 0){
+                    rise = false;
+                    life ++;                    
+                }
+                if(point % 1000 == 0){
+                    rise = false;
+                    speed ++;
+                    clearInterval(timer);timer = NaN;
+                    if(mode == 0){
+                        timer = setInterval(mainLoop, 11 - (speed * 0.5));                    
+                    } else if(point > 5000){
+                        timer = setInterval(mainLoop, 8.5 - (speed * 0.25));
+                    }
+                }
+                
+
+            }
+        } else {
+        if (!point % 1000 == 0){
+            rise = true;
+        } else {
+            rise = false;
+        }
+        }
+        if(isNaN(timer)) {
+            if(life < 1) {
+            ctx.fillStyle = 'black';
+            ctx.fillRect(300, 0, 740, 745);
+            ctx.fillStyle = 'crimson';
+            ctx.fillText('GAME OVER', 490, 325);
+            ctx.font="42pt Sans-serif";
+            ctx.fillText('Level:' + (speed + 1), 568, 385);
+            ctx.font="32pt Sans-serif";
+            ctx.fillText('Point:' + point, 568, 425); 
+            ctx.fillText('Max Combo:' + max, 568, 465);  
+            } else if(point == 5000 && mode == 0){
+                ctx.fillStyle = 'black';
+                ctx.fillRect(300, 0, 740, 745);
+                ctx.fillStyle = 'yellow';
+                ctx.fillText('GAME CLEAR', 490, 350);
+                ctx.font="33pt Sans-serif";
+                ctx.fillText('Endless mode will', 500, 425);
+                ctx.fillText('start after ' + Math.trunc(number) + ' seconds.', 475, 475);
+                function waitOneSeconda(){
+                setTimeout(function() {
+                    if(isNaN(timer)){
+                        number -= 0.5;
+                        draw();
+                    }
+                }, 1000);
+            }
+                waitOneSeconda();
+
+                function waitOneSecondes(){
+                setTimeout(function() {
+                    if(isNaN(timer)){
+                        mode = 1;
+                    }
+                }, 5500);
+                    
+            }
+                waitOneSecondes();
+            }
+            if(mode == 1 && life > 0){
+                timer = setInterval(mainLoop, 11 - (speed * 0.5));                
+            }
+
+        }
+        
+    }
+    
+    </script>
+</head>
+
+<body onload="init()">
+<canvas id="canvas" width="1350" height="745"></canvas>
+</body>
+</html>

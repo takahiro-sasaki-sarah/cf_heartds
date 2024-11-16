@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>矢印ゲーム</title>
+        <style>
+            body{
+                margin: 0;
+                font-family: Sans-serif;
+                }
+
+            a{
+                text-decoration: none;
+            }
+
+            .con{
+                width: 1180px;
+                padding: 0px 15px;
+                margin: 0 auto;
+            }
+
+            .top-w{
+                /* margin-top:100px; */
+                padding: 225px 0px 225px 0px;
+                background-color:#888;
+                background-image: url(file:///media/fuse/drivefs-4b5b6d0c09015edb5497159f4f29bfb1/root/%E3%81%8A%E8%A9%A6%E3%81%97Java/%E7%9F%A2%E5%8D%B0%E3%82%B2%E3%83%BC%E3%83%A0/Background-img.png); 
+                background-size: cover;
+                text-align: center;
+                opacity:0.6;
+            }
+            
+            .top-w h1{
+                color: crimson;
+                font-size: 45px;
+                letter-spacing: 2px;
+            }
+
+            .btn{
+                padding: 8px 24px;
+                color: white;
+                display:inline-block;
+                border-radius: 5px;
+                opacity: 1;
+            }
+            .btn-w {
+                position: absolute;
+                color: crimson;
+                opacity: 1;
+                /* height : 100px; */
+                /* width: 100px; */
+                /* margin: -200px -100px -200px 0px; */
+                /* padding-left: 350px; */
+            }
+
+            .game h1{
+                color:lime;
+                font-size:50px;
+                margin:-300px 0px 0px 540px;
+            }
+
+            .game h2{
+                color:aqua;
+                font-size:50px;
+                margin:0px 0px 0px 200px;
+            }
+
+            .series{
+                font-size:20px;
+                background-color: red;
+                margin:30px 0px 0px 520px;
+            }
+
+            .series{
+
+            }
+
+            .le-w{
+                height: 500px;
+                padding-bottom: 80px;
+                background-color: black;
+            }
+
+            .head{
+                padding: 60px 0px 30px 0px;
+                color:white;
+            }
+            .head h2{
+                font-weight: normal;
+            }
+
+            .les{
+                float: left;
+                width: 25%;
+                color:#999;
+            }
+
+            .txt-con{
+                padding-top: 20px;
+                padding: 10px;
+            }
+
+            .dtn{
+                background-color: #888;
+                color: #000;
+                padding: 15px 105px;
+                box-shadow: 0px 10px #444;
+            }
+
+            .dtn:active{   
+                box-shadow: none;
+                position: relative;
+                top: 10px;
+                opacity:0.8;
+            }
+            
+            .practice{
+                float:center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="top-w">
+        </div>
+        <div class="btn-w">
+            <div class="con game">
+                <h1>矢印ゲーム</h1>
+                <h2>(※フルスクリーンでプレイしてください)</h2>
+                <a class="btn series" href="file:///media/fuse/drivefs-4b5b6d0c09015edb5497159f4f29bfb1/root/%E3%81%8A%E8%A9%A6%E3%81%97Java/%E7%9F%A2%E5%8D%B0%E3%82%B2%E3%83%BC%E3%83%A0/Allow0.html">ルール・操作方法はこちら</a>
+            </div>
+        </div>
+        <div class="le-w">
+            <div class="con">
+                <div class="head">
+                    <h2>難易度一覧</h2>
+                </div>
+                <div class="less">
+                    <div class="les">
+                        <a class="dtn" href="file:///media/fuse/drivefs-4b5b6d0c09015edb5497159f4f29bfb1/root/%E3%81%8A%E8%A9%A6%E3%81%97Java/%E7%9F%A2%E5%8D%B0%E3%82%B2%E3%83%BC%E3%83%A0/Allow-A%20ver.0.2.2.html">◎簡単◎</a>
+                        <p class="txt-con">初期ライフは7、移動速度は遅め。スコアが1000の倍数になるとライフが回復</p>
+                    </div>
+                    <div class="les">
+                        <a class="dtn" href="file:///media/fuse/drivefs-4b5b6d0c09015edb5497159f4f29bfb1/root/%E3%81%8A%E8%A9%A6%E3%81%97Java/%E7%9F%A2%E5%8D%B0%E3%82%B2%E3%83%BC%E3%83%A0/Allow-B%20ver.0.2.2.html">◯普通◯</a>
+                        <p class="txt-con">初期ライフは5、移動速度は標準。スコアが2000の倍数になるとライフが回復</p>
+                    </div>
+                    <div class="les">
+                        <a class="dtn" href="file:///media/fuse/drivefs-4b5b6d0c09015edb5497159f4f29bfb1/root/%E3%81%8A%E8%A9%A6%E3%81%97Java/%E7%9F%A2%E5%8D%B0%E3%82%B2%E3%83%BC%E3%83%A0/Allow-C%20ver.0.2.2.html">⚠難関⚠</a>
+                        <p class="txt-con">初期ライフは3、移動速度は速め。スコアが2500の倍数になるとライフが回復</p>
+                    </div>
+                    <div class="les">
+                        <a class="dtn" href="file:///media/fuse/drivefs-4b5b6d0c09015edb5497159f4f29bfb1/root/%E3%81%8A%E8%A9%A6%E3%81%97Java/%E7%9F%A2%E5%8D%B0%E3%82%B2%E3%83%BC%E3%83%A0/Allow-D%20ver.0.2.2.html">✕不可✕</a>
+                        <p class="txt-con">初期ライフは1、移動速度は速め。ライフは回復しない</p>
+                    </div>
+                    <div class="les">
+                        <p class="txt-con"></p>
+                    </div>
+                    <div class="les practice">
+                        <a class="dtn" href="file:///media/fuse/drivefs-4b5b6d0c09015edb5497159f4f29bfb1/root/%E3%81%8A%E8%A9%A6%E3%81%97Java/%E7%9F%A2%E5%8D%B0%E3%82%B2%E3%83%BC%E3%83%A0/Allow-Z%20ver.0.2.2.html">☆練習☆</a>
+                        <p class="txt-con">ライフは∞、移動速度は自由（カスタム）。慣れたら上の難易度に挑戦してみよう!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
